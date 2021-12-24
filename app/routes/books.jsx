@@ -130,7 +130,7 @@ export default function Books() {
 			<SearchButton />
 
 			<main>
-				<Box sx={{ margin: 5, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+				<Box sx={{ marginTop: '1em', marginBottom: '1em', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
 					<BookList />
 				</Box>
 

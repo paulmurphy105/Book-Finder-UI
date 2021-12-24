@@ -45,21 +45,25 @@ export default function Book({ book }) {
     };
 
     return (
-        <Card key={book.bookId} sx={{ maxWidth: 400, minWidth: 300, marginBottom: '3em' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
+        <Card key={book.bookId} sx={{ maxWidth: 400, minWidth: 200, marginBottom: '3em' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row-reverse', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <CardHeader
                     title={book.title.length > 50 ? `${book.title.substring(0, 50)}...` : book.title}
                     subheader={book.authorlist}
+                    sx={{ textAlign: 'center' }}
                 />
                 <CardMedia
                     component="img"
                     image={book.image_link}
                     alt={`${book.title}-card-img`}
-                    sx={{ heigth: 200, width: 200 }}
+                    sx={{ height: 250, width: 150 }}
                 />
             </Box>
             <CardContent>
-                <GenreChips genreList={book.genrelist.split(',') || []} />
+
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <GenreChips genreList={book.genrelist.split(',') || []} />
+                </Box>
 
                 <Button href="" onClick={(e) => handleExpandClick(e, book.bookId)} sx={{ textTransform: 'none' }}>
                     <Typography textAlign="left" variant="body2" color="text.secondary">
