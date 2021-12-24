@@ -25,7 +25,7 @@ export let loader = async ({ request }) => {
 	let books
 	if (genreIds && genreIds !== null) {
 		try {
-			books = await fetch(`${process.env.BACKEND_URL}/books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}`)
+			books = await fetch(`${process.env.BACKEND_URL}books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}`)
 			.then((response) => {
 				return response.json();
 			})
