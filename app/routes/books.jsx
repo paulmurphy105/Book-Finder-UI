@@ -24,10 +24,17 @@ export let loader = async ({ request }) => {
 
 	let books
 	if (genreIds && genreIds !== null) {
-		books = await fetch(`${process.env.BACKEND_URL}/books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}`)
-		.then((response) => {
-			return response.json();
-		})
+		try {
+			books = await fetch(`${process.env.BACKEND_URL}/books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}`)
+			.then((response) => {
+				return response.json();
+			})
+		} catch (error) {
+			console.log('Fetch failed')
+			console.error(error)
+		}
+
+
 	}
 				
 	const genres = require('../@data/mocks/genres.json')
