@@ -1,4 +1,4 @@
-import { useLoaderData, useSearchParams, redirect } from "remix";
+import { useLoaderData, useSearchParams } from "remix";
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
@@ -7,8 +7,6 @@ import NavigateNext from '@mui/icons-material/NavigateNext';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-
-
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import Search from './components/search'
@@ -24,11 +22,14 @@ export let loader = async ({ request }) => {
 	let limit = url.searchParams.get("limit");
 	let offset = url.searchParams.get("offset");
 
-	const books = await fetch(`http://127.0.0.1:3000/books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}`)
+	let books
+	if (genreIds && genreIds !== null) {
+		books = await fetch(`${process.env.BACKEND_URL}/books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}`)
 		.then((response) => {
 			return response.json();
 		})
-
+	}
+				
 	const genres = require('../@data/mocks/genres.json')
 
 	return { books, genres }
@@ -65,7 +66,7 @@ export default function Books() {
 		}
 	}
 
-	const ScrollToTop = () => {
+	const ScrollToTopButton = () => {
 		if (Array.isArray(data.books)) {
 			return (
 				<Fab color="primary" aria-label="add" onClick={handleScrollTop} sx={{ margin: '0px', right: '20px', bottom: '20px', position: 'fixed' }}>
@@ -127,8 +128,7 @@ export default function Books() {
 				</Box>
 
 				<NextButton />
-
-				<ScrollToTop />			
+				<ScrollToTopButton />			
 			</main>
 		</Box>
 	);

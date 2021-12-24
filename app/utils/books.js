@@ -13,8 +13,8 @@ const getNextUrl = (searchParams) => {
         ${maxPages ? `maxPages=${maxPages}&` : ''}
         ${minRating ? `minRating=${minRating}&` : ''}
         ${limit ? `limit=${limit}&` : ''}
-        ${currentOffset ? `offset=${(Number(currentOffset) + Number(limit))}` : `offset=${limit}`}
-        `
+        ${currentOffset ? `offset=${(Number(currentOffset) + Number(limit))}` : `offset=${limit + 1}`}
+        `.replace(/\s+/g, '')
 }
 
 module.exports = {
