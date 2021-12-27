@@ -1,4 +1,5 @@
 import * as React from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -37,6 +38,7 @@ const GenreChips = ({ genreList }) => genreList.map(genre => <Chip sx={{ margin:
 
 export default function Book({ book }) {
     const [expanded, setExpanded] = React.useState({});
+    const isLargerThanMobile = useMediaQuery('(min-width:600px)');
 
     const handleExpandClick = (e, bookId) => {
         e.preventDefault();
@@ -45,7 +47,13 @@ export default function Book({ book }) {
     };
 
     return (
-        <Card key={book.bookId} sx={{ maxWidth: 400, marginBottom: '3em' }}>
+        <Card key={book.bookId} sx={
+            {
+                maxWidth: 400,
+                margin: isLargerThanMobile ? '1em' : null,
+                marginBottom: '3em',
+                alignSelf: 'start'
+            }}>
             <Box sx={{ display: 'flex', flexDirection: 'row-reverse', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <CardHeader
                     title={book.title.length > 50 ? `${book.title.substring(0, 50)}...` : book.title}
@@ -127,6 +135,17 @@ export default function Book({ book }) {
                         <img src="https://s.gr-assets.com/images/icons/goodreads_icon_32x32.png" />
                         <span style={{ marginLeft: '5px' }}>View on goodreads</span>
                     </Link>
+
+                    <ExpandMore
+                        expand={expanded[book.bookId]}
+                        onClick={(e) => handleExpandClick(e, book.bookId)}
+                        aria-expanded={expanded[book.bookId]}
+                        aria-label="show more"
+                        sx={{ float: 'right', margin: '5px' }}
+                    >
+                        <ExpandMoreIcon />
+                    </ExpandMore>
+
                 </CardContent>
             </Collapse>
         </Card>

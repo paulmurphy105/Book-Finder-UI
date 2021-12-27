@@ -1,5 +1,6 @@
 import { useLoaderData, useSearchParams } from "remix";
 import * as React from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 import Link from '@mui/material/Link';
@@ -26,9 +27,9 @@ export let loader = async ({ request }) => {
 	if (genreIds && genreIds !== null) {
 		try {
 			books = await fetch(`${process.env.BACKEND_URL}books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}`)
-			.then((response) => {
-				return response.json();
-			})
+				.then((response) => {
+					return response.json();
+				})
 		} catch (error) {
 			console.log('Fetch failed')
 			console.error(error)
@@ -36,7 +37,7 @@ export let loader = async ({ request }) => {
 
 
 	}
-				
+
 	const genres = require('../@data/mocks/genres.json')
 
 	return { books, genres }
@@ -57,16 +58,16 @@ export let meta = () => {
 };
 
 export default function Books() {
+	const isLargerThanMobile = useMediaQuery('(min-width:600px)');
 	const [searchParams] = useSearchParams();
 	const data = useLoaderData();
 	const [searchBarVisible, setSearchBarVisible] = React.useState(!Array.isArray(data.books));
 	const searchButtonRef = React.useRef()
 
-
 	const handleSearchInputChange = () => {
 		setSearchBarVisible((prev) => !prev);
 	};
-	
+
 	const handleScrollTop = () => {
 		if (searchButtonRef.current) {
 			searchButtonRef.current.scrollIntoView({ behavior: "smooth" })
@@ -78,7 +79,7 @@ export default function Books() {
 			return (
 				<Fab color="primary" aria-label="add" onClick={handleScrollTop} sx={{ margin: '0px', right: '20px', bottom: '20px', position: 'fixed' }}>
 					<ArrowUpwardIcon />
-				</Fab>	
+				</Fab>
 			)
 		}
 
@@ -114,9 +115,25 @@ export default function Books() {
 
 	const BookList = () => {
 		if (data.books && Array.isArray(data.books)) {
-			return data.books.map((book) => <Book book={book} />)
+			// TODO: figure this out. the mobile view gets messed up when I wrap it in a box element.
+			// There is likely a way to return a single component to handle both scenarios			
+			if (isLargerThanMobile) {
+				return (
+					<div style={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'baseline',
+						flexDirection: isLargerThanMobile ? 'row' : 'column',
+						flexWrap: 'wrap'
+					}}>
+						{data.books.map((book) => <Book key={book.bookId} book={book} />)}
+					</div>
+				)
+			}
+
+			return data.books.map((book) => <Book key={book.bookId} book={book} />)
 		}
-	
+
 		return null
 	}
 
@@ -132,7 +149,7 @@ export default function Books() {
 			<main>
 				<BookList />
 				<NextButton />
-				<ScrollToTopButton />			
+				<ScrollToTopButton />
 			</main>
 		</Box>
 	);
