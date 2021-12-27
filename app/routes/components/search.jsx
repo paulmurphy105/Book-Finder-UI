@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useSearchParams } from "remix";
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -30,6 +31,7 @@ function bookDurationValuetext(bookDurationValue) {
 
 export default function Tags({ genreList }) {
     const [searchParams] = useSearchParams();
+    const isLargerThanMobile = useMediaQuery('(min-width:600px)');
     const [pageCountValue, setPageCountValue] = React.useState([100, 400]);
     const [bookDurationValue, setBookDurationValue] = React.useState([3, 10]);
     const [rating, setRating] = React.useState(3);
@@ -90,13 +92,11 @@ export default function Tags({ genreList }) {
         }
     }
 
-    const searchUnderway = () => url.searchParams.get("genreIds") && url.searchParams.get("genreIds") !== ''
-
     const renderGenreSelect = () => {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <Autocomplete
-                    sx={{ width: '100%', minWidth: '200px', margin: '0.7em' }}
+                    sx={{ minWidth: '200px', margin: '0.7em',  width: isLargerThanMobile ? '600px' : '150px' }}
                     multiple
                     id="tags-outlined"
                     options={genreList}
@@ -131,7 +131,8 @@ export default function Tags({ genreList }) {
                     max={1000}
                     valueLabelDisplay="on"
                     sx={{
-                        color: 'primary.light'
+                        color: 'primary.light',
+                        width: isLargerThanMobile ? '300px' : '150px'
                     }}
                 />
             </Box>
@@ -140,7 +141,7 @@ export default function Tags({ genreList }) {
 
     const renderReadingDurationPicker = () => {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', padding: '50px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', padding: '50px', width: '100%' }}>
                 <Slider
                     name="readingDurationSlider"
                     getAriaLabel={() => 'Number of Pages'}
@@ -221,14 +222,19 @@ export default function Tags({ genreList }) {
         },
         {
             label: 'Choose the minimum rating',
-            description: `Only books with a GoodReads rating above this number will be returned`,
             renderAdditionalContent: renderRatingSelect
         },
     ];
 
     return (
-        <form action="/books?genreIds=35&minPages=100&maxPages=300&minRating=3" method="GET">
-            <Box sx={{ borderBottom: '1px solid lightgrey', minWidth: 400, margin: '10px', padding: '10px', display: 'flex', alignItems: 'middle', justifyContent: 'flex-start' }}>
+        <form action="/books" method="GET">
+            <Box sx={{ 
+                borderBottom: '1px solid lightgrey', 
+                margin: '10px',
+                padding: '10px',
+                display: 'flex',
+                alignItems: 'middle',
+                justifyContent: 'flex-start' }}>
 
                 <input type="hidden" name="genreIds" value={selectedGenreIds.join()} />
                 <input type="hidden" name="minPages" value={getPageRange().minPages} />
