@@ -88,8 +88,8 @@ export default function Books() {
 	const SearchButton = () => {
 		if (data.books && data.books.length > 0) {
 			return !searchBarVisible
-				? <Button ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<SearchIcon />}>Show Search Bar</Button>
-				: <Button ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<CloseIcon />}>Hide Search Bar</Button>
+				? <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<SearchIcon />}>Show Search Bar</Button>
+				: <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<CloseIcon />}>Hide Search Bar</Button>
 		}
 
 		return null
@@ -122,7 +122,7 @@ export default function Books() {
 
 	return (
 		<Box
-			sx={{ margin: '1em', display: 'flex', width: '100', flexDirection: 'column', alignItems: 'centre', alignContent: 'space-between', justifyContent: 'center' }}>
+			sx={{ margin: '2em', display: 'flex', flexDirection: 'column', alignItems: 'centre', alignContent: 'space-between', justifyContent: 'center' }}>
 			<Collapse in={searchBarVisible}>
 				<Search genreList={data.genres} />
 			</Collapse>
@@ -130,10 +130,7 @@ export default function Books() {
 			<SearchButton />
 
 			<main>
-				<Box sx={{ marginTop: '1em', marginBottom: '1em', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-					<BookList />
-				</Box>
-
+				<BookList />
 				<NextButton />
 				<ScrollToTopButton />			
 			</main>

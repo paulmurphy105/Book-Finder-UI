@@ -45,7 +45,7 @@ export default function Book({ book }) {
     };
 
     return (
-        <Card key={book.bookId} sx={{ maxWidth: 400, minWidth: 200, marginBottom: '3em' }}>
+        <Card key={book.bookId} sx={{ maxWidth: 400, marginBottom: '3em' }}>
             <Box sx={{ display: 'flex', flexDirection: 'row-reverse', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <CardHeader
                     title={book.title.length > 50 ? `${book.title.substring(0, 50)}...` : book.title}

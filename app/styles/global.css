@@ -90,7 +90,7 @@ input:where([type="search"]) {
 }
 
 .container {
-  --gutter: 16px;
+  --gutter: 10px;
   width: 1024px;
   max-width: calc(100% - var(--gutter) * 2);
   margin-right: auto;

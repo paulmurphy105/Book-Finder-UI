@@ -94,9 +94,9 @@ export default function Tags({ genreList }) {
 
     const renderGenreSelect = () => {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
                 <Autocomplete
-                    sx={{ width: '100%', minWidth: '300px', margin: '2em' }}
+                    sx={{ width: '100%', minWidth: '200px', margin: '0.7em' }}
                     multiple
                     id="tags-outlined"
                     options={genreList}
