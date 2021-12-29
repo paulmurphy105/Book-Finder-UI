@@ -30,7 +30,7 @@ function bookDurationValuetext(bookDurationValue) {
 
 export default function Tags({ genreList }) {
     const isLargerThanMobile = useMediaQuery('(min-width:600px)');
-    const [pageCountValue, setPageCountValue] = React.useState([100, 400]);
+    const [pageCountValue, setPageCountValue] = React.useState([300, 600]);
     const [bookDurationValue, setBookDurationValue] = React.useState([3, 10]);
     const [rating, setRating] = React.useState(3);
     const [open, setOpen] = React.useState(false);
@@ -124,9 +124,9 @@ export default function Tags({ genreList }) {
                     onChange={handlePageCount}
                     valueLabelDisplay="auto"
                     getAriaValueText={pageValuetext}
-                    step={50}
+                    step={100}
                     min={50}
-                    max={1000}
+                    max={2500}
                     valueLabelDisplay="on"
                     sx={{
                         color: 'primary.light',

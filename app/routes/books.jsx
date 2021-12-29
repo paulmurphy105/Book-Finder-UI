@@ -7,6 +7,8 @@ import Link from '@mui/material/Link';
 import NavigateNext from '@mui/icons-material/NavigateNext';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
@@ -23,11 +25,12 @@ export let loader = async ({ request }) => {
 	let minRating = url.searchParams.get("minRating");
 	let limit = url.searchParams.get("limit");
 	let offset = url.searchParams.get("offset");
+	let orderBy = url.searchParams.get("orderBy");
 
 	let books
 	if (genreIds && genreIds !== null) {
 		try {
-			books = await fetch(`${process.env.BACKEND_URL}books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}`)
+			books = await fetch(`${process.env.BACKEND_URL}books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}&orderBy=${orderBy}`)
 				.then((response) => {
 					return response.json();
 				})
@@ -69,6 +72,8 @@ export default function Books() {
 		setSearchBarVisible((prev) => !prev);
 	};
 
+	const isShuffling = () => searchParams && searchParams.get('orderBy') && searchParams.get('orderBy') === 'random'
+
 	const handleScrollTop = () => {
 		if (searchButtonRef.current) {
 			searchButtonRef.current.scrollIntoView({ behavior: "smooth" })
@@ -83,20 +88,35 @@ export default function Books() {
 		)
 	}
 
-	const SearchButton = () => {
+	const PanelButtons = () => {
 		if (Array.isArray(data.books)) {
-			return !searchBarVisible
+			const SearchButton = !searchBarVisible
 				? <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<SearchIcon />}>Show Search Bar</Button>
 				: <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<CloseIcon />}>Hide Search Bar</Button>
+
+			return (
+				<>
+					{SearchButton}
+					<SortButtons />
+				</>
+			)
 		}
 
 		return null
 	}
 
 	const NextButton = () => {
-		if (data.books.length === 20) {
+		if (isShuffling()) {
 			return (
 				<Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+					 <ShuffleButton />
+				</Box>
+			)
+		}
+
+		if (data.books.length === 20) {
+			return (
+				<Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>				
 					<Link
 						sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}
 						href={getNextUrl(searchParams)}>
@@ -118,13 +138,13 @@ export default function Books() {
 		if (data.books.length === 0) {
 			return <NoBooksFound />
 		}
-		
+
 		return (
 			<>
 				<BookList />
 				<NextButton />
 				<ScrollToTopButton />
-			</>			
+			</>
 		)
 	}
 
@@ -148,6 +168,17 @@ export default function Books() {
 		return data.books.map((book) => <Book key={book.bookId} book={book} />)
 	}
 
+	const ShuffleButton = () => <Button size="small"  sx={{ margin: '1em' }} disabled={false} href={getNextUrl(searchParams, 'random')} variant="contained" startIcon={<ShuffleIcon />}>Shuffle</Button>
+
+	const SortButtons = () => {
+		return (
+			<Box sx={{ marginTop: '1em', marginBottom: '1em', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', outline: '1px solid lightgray' }}>
+				<Button size="small" sx={{ margin: '1em' }} disabled={isShuffling() ? false : true} href={getNextUrl(searchParams, 'highest-rated')} variant="contained" startIcon={<ArrowDownwardIcon />}>Highest Rated</Button>
+				<ShuffleButton />
+			</Box>
+		)
+	}
+
 	return (
 		<Box
 			sx={{ margin: '2em', display: 'flex', flexDirection: 'column', alignItems: 'centre', alignContent: 'space-between', justifyContent: 'center' }}>
@@ -155,7 +186,7 @@ export default function Books() {
 				<Search genreList={data.genres} />
 			</Collapse>
 
-			<SearchButton />
+			<PanelButtons />
 
 			<main>
 				<SearchResults />
