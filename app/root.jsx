@@ -10,7 +10,6 @@ import {
 } from "remix";
 
 import globalStylesUrl from "~/styles/global.css";
-import darkStylesUrl from "~/styles/dark.css";
 
 // https://remix.run/api/app#links
 export let links = () => {

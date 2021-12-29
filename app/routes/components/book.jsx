@@ -141,7 +141,7 @@ export default function Book({ book }) {
                         onClick={(e) => handleExpandClick(e, book.bookId)}
                         aria-expanded={expanded[book.bookId]}
                         aria-label="show more"
-                        sx={{ float: 'right', margin: '5px' }}
+                        sx={{ float: 'right', marginBottom: '1em' }}
                     >
                         <ExpandMoreIcon />
                     </ExpandMore>
