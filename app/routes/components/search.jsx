@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useSearchParams } from "remix";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -30,7 +29,6 @@ function bookDurationValuetext(bookDurationValue) {
 }
 
 export default function Tags({ genreList }) {
-    const [searchParams] = useSearchParams();
     const isLargerThanMobile = useMediaQuery('(min-width:600px)');
     const [pageCountValue, setPageCountValue] = React.useState([100, 400]);
     const [bookDurationValue, setBookDurationValue] = React.useState([3, 10]);
@@ -164,7 +162,7 @@ export default function Tags({ genreList }) {
     const renderLengthSelector = () => {
         return (
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column',  width: isLargerThanMobile ? '500px' : '250px' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'center', }}>
                     <FormControl component="fieldset">
                         <RadioGroup defaultValue='page-count' row aria-label="total-page-or-read-duration" name="row-radio-buttons-group" onChange={handleBookLengthSelectorChange}>
@@ -183,7 +181,7 @@ export default function Tags({ genreList }) {
 
     const renderRatingSelect = () => {
         return (
-            <Box sx={{ minWidth: 120, display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ minWidth: 120, width: 200, display: 'flex', justifyContent: 'center' }}>
                 <FormControl sx={{ m: 1, minWidth: 120, margin: '2em' }}>
                     <InputLabel id="demo-controlled-open-select-label">Minimum Rating</InputLabel>
                     <Select

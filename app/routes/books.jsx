@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import Search from './components/search'
 import Book from './components/book'
+import NoBooksFound from './components/NoBooksFound'
 import { getNextUrl } from '../utils/books'
 
 export let loader = async ({ request }) => {
@@ -75,19 +76,15 @@ export default function Books() {
 	}
 
 	const ScrollToTopButton = () => {
-		if (Array.isArray(data.books)) {
-			return (
-				<Fab color="primary" aria-label="add" onClick={handleScrollTop} sx={{ margin: '0px', right: '20px', bottom: '20px', position: 'fixed' }}>
-					<ArrowUpwardIcon />
-				</Fab>
-			)
-		}
-
-		return null
+		return (
+			<Fab color="primary" aria-label="add" onClick={handleScrollTop} sx={{ margin: '0px', right: '20px', bottom: '20px', position: 'fixed' }}>
+				<ArrowUpwardIcon />
+			</Fab>
+		)
 	}
 
 	const SearchButton = () => {
-		if (data.books && data.books.length > 0) {
+		if (Array.isArray(data.books)) {
 			return !searchBarVisible
 				? <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<SearchIcon />}>Show Search Bar</Button>
 				: <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<CloseIcon />}>Hide Search Bar</Button>
@@ -97,7 +94,7 @@ export default function Books() {
 	}
 
 	const NextButton = () => {
-		if (data && data.books && data.books.length > 0 && data.books.length === 20) {
+		if (data.books.length === 20) {
 			return (
 				<Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 					<Link
@@ -113,28 +110,42 @@ export default function Books() {
 		return null
 	}
 
-	const BookList = () => {
-		if (data.books && Array.isArray(data.books)) {
-			// TODO: figure this out. the mobile view gets messed up when I wrap it in a box element.
-			// There is likely a way to return a single component to handle both scenarios			
-			if (isLargerThanMobile) {
-				return (
-					<div style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'baseline',
-						flexDirection: isLargerThanMobile ? 'row' : 'column',
-						flexWrap: 'wrap'
-					}}>
-						{data.books.map((book) => <Book key={book.bookId} book={book} />)}
-					</div>
-				)
-			}
-
-			return data.books.map((book) => <Book key={book.bookId} book={book} />)
+	const SearchResults = () => {
+		if (!data.books || !Array.isArray(data.books)) {
+			return null
 		}
 
-		return null
+		if (data.books.length === 0) {
+			return <NoBooksFound />
+		}
+		
+		return (
+			<>
+				<BookList />
+				<NextButton />
+				<ScrollToTopButton />
+			</>			
+		)
+	}
+
+	const BookList = () => {
+		// TODO: figure this out. the mobile view gets messed up when I wrap it in a box element.
+		// There is likely a way to return a single component to handle both scenarios			
+		if (isLargerThanMobile) {
+			return (
+				<div style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'baseline',
+					flexDirection: isLargerThanMobile ? 'row' : 'column',
+					flexWrap: 'wrap'
+				}}>
+					{data.books.map((book) => <Book key={book.bookId} book={book} />)}
+				</div>
+			)
+		}
+
+		return data.books.map((book) => <Book key={book.bookId} book={book} />)
 	}
 
 	return (
@@ -147,9 +158,7 @@ export default function Books() {
 			<SearchButton />
 
 			<main>
-				<BookList />
-				<NextButton />
-				<ScrollToTopButton />
+				<SearchResults />
 			</main>
 		</Box>
 	);
