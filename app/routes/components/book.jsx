@@ -58,7 +58,7 @@ export default function Book({ book }) {
                 <CardHeader
                     title={book.title.length > 50 ? `${book.title.substring(0, 50)}...` : book.title}
                     subheader={book.authorlist}
-                    sx={{ textAlign: 'center' }}
+                    sx={{ textAlign: 'center', width: isLargerThanMobile ? '50%' : '100%' }}
                 />
                 <CardMedia
                     component="img"
