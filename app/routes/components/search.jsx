@@ -181,8 +181,8 @@ export default function Tags({ genreList }) {
 
     const renderRatingSelect = () => {
         return (
-            <Box sx={{ minWidth: 120, width: 200, display: 'flex', justifyContent: 'center' }}>
-                <FormControl sx={{ m: 1, minWidth: 120, margin: '2em' }}>
+            <Box sx={{ minWidth: 120, width: 250, display: 'flex', justifyContent: 'flex-start' }}>
+                <FormControl sx={{ m: 1, minWidth: 120, margin: '1em' }}>
                     <InputLabel id="demo-controlled-open-select-label">Minimum Rating</InputLabel>
                     <Select
                         labelId="demo-controlled-open-select-label"

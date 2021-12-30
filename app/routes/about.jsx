@@ -68,11 +68,11 @@ export default function About() {
                 <li>I wanted it to exist so that I could find highly rated books which weren't excessively long</li>
                 <li>To play around with some emerging technologies (Fastify, Remix)</li>
                 <li>To see first hand how a Postgres DB served from a Raspberry Pi would perform </li>
-                <li>To reacquaint myself with some relationship database concepts  </li>
+                <li>To reacquaint myself with some relational database concepts  </li>
               </ul>
              
               I try to read every night but I usually fall asleep after about 10 minutes so diving into a &gt;1,000 page book is rarely appealing.
-              On top of this, my day to day work is in the API space so I don't get to write too much frontend code.</p>
+              On top of this, my day to day work is in the API space so I don't get to write much frontend code.</p>
 
             <h2>Tools &amp; Technologies</h2>
             <p><b>Frontend</b></p>
