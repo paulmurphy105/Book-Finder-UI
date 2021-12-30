@@ -97,7 +97,7 @@ export default function Books() {
 			return (
 				<>
 					{SearchButton}
-					<SortButtons />
+					{data.books.length > 0 && <SortButtons />}
 				</>
 			)
 		}
