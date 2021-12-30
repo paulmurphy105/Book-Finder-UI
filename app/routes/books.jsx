@@ -172,7 +172,7 @@ export default function Books() {
 
 	const SortButtons = () => {
 		return (
-			<Box sx={{ marginTop: '1em', marginBottom: '1em', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', outline: '1px solid lightgray' }}>
+			<Box sx={{ marginTop: '1em', marginBottom: '1em', display: 'flex', flexWrap: 'wrap', justifyContent: isLargerThanMobile ? 'center' : 'space-around', outline: '1px solid lightgray' }}>
 				<Button size="small" sx={{ margin: '1em' }} disabled={isShuffling() ? false : true} href={getNextUrl(searchParams, 'highest-rated')} variant="contained" startIcon={<ArrowDownwardIcon />}>Highest Rated</Button>
 				<ShuffleButton />
 			</Box>

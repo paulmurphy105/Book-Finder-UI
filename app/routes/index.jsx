@@ -1,90 +1,196 @@
-import { useLoaderData, json, Link } from "remix";
+import { useLoaderData, useSearchParams } from "remix";
+import * as React from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
+import Link from '@mui/material/Link';
+import NavigateNext from '@mui/icons-material/NavigateNext';
+import CloseIcon from '@mui/icons-material/Close';
+import SearchIcon from '@mui/icons-material/Search';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
+import Search from './components/search'
+import Book from './components/book'
+import NoBooksFound from './components/NoBooksFound'
+import { getNextUrl } from '../utils/books'
 
-// Loaders provide data to components and are only ever called on the server, so
-// you can connect to a database or run any server side code you want right next
-// to the component that renders it.
-// https://remix.run/api/conventions#loader
-export let loader = () => {
-  let data = {
-    resources: [
-      {
-        name: "Search",
-        url: "/books"
-      },
-      {
-        name: "About",
-        url: "/about"
-      }
-    ],
-    demos: [
-      {
-        to: "demos/actions",
-        name: "Actions"
-      },
-      {
-        to: "demos/about",
-        name: "Nested Routes, CSS loading/unloading"
-      },
-      {
-        to: "demos/params",
-        name: "URL Params and Error Boundaries"
-      }
-    ]
-  };
+export let loader = async ({ request }) => {
+	let url = new URL(request.url);
+	let genreIds = url.searchParams.get("genreIds");
+	let minPages = url.searchParams.get("minPages");
+	let maxPages = url.searchParams.get("maxPages");
+	let minRating = url.searchParams.get("minRating");
+	let limit = url.searchParams.get("limit");
+	let offset = url.searchParams.get("offset");
+	let orderBy = url.searchParams.get("orderBy");
 
-  // https://remix.run/api/remix#json
-  return json(data);
+	let books
+	if (genreIds && genreIds !== null) {
+		try {
+			books = await fetch(`${process.env.BACKEND_URL}books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}&orderBy=${orderBy}`)
+				.then((response) => {
+					return response.json();
+				})
+		} catch (error) {
+			console.log('Fetch failed')
+			console.error(error)
+		}
+
+
+	}
+
+	const genres = require('../@data/mocks/genres.json')
+
+	return { books, genres }
 };
 
-// https://remix.run/api/conventions#meta
+export function links() {
+	return [
+		{ rel: "stylesheet", href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' },
+		{ rel: "stylesheet", href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
+	];
+}
+
 export let meta = () => {
-  return {
-    title: "Remix Starter",
-    description: "Welcome to remix!"
-  };
+	return {
+		title: "Find your next book!",
+		description: "Find the next book by specifying genre, page count, length and rating"
+	};
 };
 
-// https://remix.run/guides/routing#index-routes
-export default function Index() {
-  let data = useLoaderData();
+export default function Books() {
+	const isLargerThanMobile = useMediaQuery('(min-width:600px)');
+	const [searchParams] = useSearchParams();
+	const data = useLoaderData();
+	const [searchBarVisible, setSearchBarVisible] = React.useState(!Array.isArray(data.books));
+	const searchButtonRef = React.useRef()
 
-  return (
-    <div className="remix__page">
-      <main>
-        <h2>Welcome to Remix!</h2>
-        <p>We're stoked that you're here. 🥳</p>
-        <p>
-          Feel free to take a look around the code to see how Remix does things,
-          it might be a bit different than what you’re used to. When you're
-          ready to dive deeper, we've got plenty of resources to get you
-          up-and-running quickly.
-        </p>
-        <p>
-          Check out all the demos in this starter, and then just delete the{" "}
-          <code>app/routes/demos</code> and <code>app/styles/demos</code>{" "}
-          folders when you're ready to turn this into your next project.
-        </p>
-      </main>
-      <aside>
-        <h2>Demos In This App</h2>
-        <ul>
-          {data.demos.map(demo => (
-            <li key={demo.to} className="remix__page__resource">
-              <Link to={demo.to} prefetch="intent">
-                {demo.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <h2>Resources</h2>
-        <ul>
-          {data.resources.map(resource => (
-            <li key={resource.url} className="remix__page__resource">
-              <a href={resource.url}>{resource.name}</a>
-            </li>
-          ))}
-        </ul>
-      </aside>
-    </div>
-  );
+	const handleSearchInputChange = () => {
+		setSearchBarVisible((prev) => !prev);
+	};
+
+	const isShuffling = () => searchParams && searchParams.get('orderBy') && searchParams.get('orderBy') === 'random'
+
+	const handleScrollTop = () => {
+		if (searchButtonRef.current) {
+			searchButtonRef.current.scrollIntoView({ behavior: "smooth" })
+		}
+	}
+
+	const ScrollToTopButton = () => {
+		return (
+			<Fab color="primary" aria-label="add" onClick={handleScrollTop} sx={{ margin: '0px', right: '20px', bottom: '20px', position: 'fixed' }}>
+				<ArrowUpwardIcon />
+			</Fab>
+		)
+	}
+
+	const PanelButtons = () => {
+		if (Array.isArray(data.books)) {
+			const SearchButton = !searchBarVisible
+				? <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<SearchIcon />}>Show Search Bar</Button>
+				: <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<CloseIcon />}>Hide Search Bar</Button>
+
+			return (
+				<>
+					{SearchButton}
+					{data.books.length > 0 && <SortButtons />}
+				</>
+			)
+		}
+
+		return null
+	}
+
+	const NextButton = () => {
+		if (isShuffling()) {
+			return (
+				<Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+					 <ShuffleButton />
+				</Box>
+			)
+		}
+
+		if (data.books.length === 20) {
+			return (
+				<Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>				
+					<Link
+						sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}
+						href={getNextUrl(searchParams)}>
+						<span>More</span>
+						<NavigateNext />
+					</Link>
+				</Box>
+			)
+		}
+
+		return null
+	}
+
+	const SearchResults = () => {
+		if (!data.books || !Array.isArray(data.books)) {
+			return null
+		}
+
+		if (data.books.length === 0) {
+			return <NoBooksFound />
+		}
+
+		return (
+			<>
+				<BookList />
+				<NextButton />
+				<ScrollToTopButton />
+			</>
+		)
+	}
+
+	const BookList = () => {
+		// TODO: figure this out. the mobile view gets messed up when I wrap it in a box element.
+		// There is likely a way to return a single component to handle both scenarios			
+		if (isLargerThanMobile) {
+			return (
+				<div style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'baseline',
+					flexDirection: isLargerThanMobile ? 'row' : 'column',
+					flexWrap: 'wrap'
+				}}>
+					{data.books.map((book) => <Book key={book.bookId} book={book} />)}
+				</div>
+			)
+		}
+
+		return data.books.map((book) => <Book key={book.bookId} book={book} />)
+	}
+
+	const ShuffleButton = () => <Button size="small"  sx={{ margin: '1em' }} disabled={false} href={getNextUrl(searchParams, 'random')} variant="contained" startIcon={<ShuffleIcon />}>Shuffle</Button>
+
+	const SortButtons = () => {
+		return (
+			<Box sx={{ marginTop: '1em', marginBottom: '1em', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', outline: '1px solid lightgray' }}>
+				<Button size="small" sx={{ margin: '1em' }} disabled={isShuffling() ? false : true} href={getNextUrl(searchParams, 'highest-rated')} variant="contained" startIcon={<ArrowDownwardIcon />}>Highest Rated</Button>
+				<ShuffleButton />
+			</Box>
+		)
+	}
+
+	return (
+		<Box
+			sx={{ margin: '2em', display: 'flex', flexDirection: 'column', alignItems: 'centre', alignContent: 'space-between', justifyContent: 'center' }}>
+			<Collapse in={searchBarVisible}>
+				<Search genreList={data.genres} />
+			</Collapse>
+
+			<PanelButtons />
+
+			<main>
+				<SearchResults />
+			</main>
+		</Box>
+	);
 }

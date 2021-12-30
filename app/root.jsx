@@ -112,7 +112,7 @@ function Layout({ children }) {
     <div className="remix-app">
       <header className="remix-app__header">
         <div className="container remix-app__header-content">
-          <Link to="/" title="Find Your Next Book" className="remix-app__header-home-link">
+          <Link to="/books" title="Find Your Next Book" className="remix-app__header-home-link">
             <img src={FindYourNextBookLogo} alt="find-your-next-book-logo" height="35" />          </Link>
           <nav aria-label="Main navigation" className="remix-app__header-nav">
             <ul>
@@ -134,7 +134,7 @@ function Layout({ children }) {
       </div>
       <footer className="remix-app__footer">
         <div className="container remix-app__footer-content">
-          <p>&copy; You!</p>
+          <p>&copy; <a href="https://www.linkedin.com/in/paul-murphy-47237179/">Paul Murphy</a>!</p>
         </div>
       </footer>
     </div>
