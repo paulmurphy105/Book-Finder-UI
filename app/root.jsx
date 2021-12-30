@@ -117,13 +117,13 @@ function Layout({ children }) {
           <nav aria-label="Main navigation" className="remix-app__header-nav">
             <ul>
               <li>
-                <Link to="/">Home</Link>
+                <Link to="/books">Home</Link>
               </li>
               <li>
-                <a href="https://remix.run/docs">Remix Docs</a>
+                <a href="/about">About</a>
               </li>
               <li>
-                <a href="https://github.com/remix-run/remix">GitHub</a>
+                <a href="https://github.com/paulmurphy105/Book-Finder-UI">GitHub</a>
               </li>
             </ul>
           </nav>

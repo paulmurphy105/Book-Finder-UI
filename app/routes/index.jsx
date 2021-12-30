@@ -8,16 +8,12 @@ export let loader = () => {
   let data = {
     resources: [
       {
-        name: "Remix Docs",
-        url: "https://remix.run/docs"
+        name: "Search",
+        url: "/books"
       },
       {
-        name: "React Router Docs",
-        url: "https://reactrouter.com/docs"
-      },
-      {
-        name: "Remix Discord",
-        url: "https://discord.gg/VBePs6d"
+        name: "About",
+        url: "/about"
       }
     ],
     demos: [
