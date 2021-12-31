@@ -9,6 +9,7 @@ import {
   useCatch
 } from 'remix'
 import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 
 import globalStylesUrl from '~/styles/global.css'
 import FindYourNextBookLogo from '../public/FYNB-logo.png'
