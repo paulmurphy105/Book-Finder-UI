@@ -7,35 +7,35 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch
-} from "remix";
+} from 'remix'
 
-import globalStylesUrl from "~/styles/global.css";
-import FindYourNextBookLogo from "../public/FYNB-logo.png";
+import globalStylesUrl from '~/styles/global.css'
+import FindYourNextBookLogo from '../public/FYNB-logo.png'
 
 // https://remix.run/api/app#links
-export let links = () => {
+export const links = () => {
   return [
-    { rel: "stylesheet", href: globalStylesUrl }
-  ];
-};
+    { rel: 'stylesheet', href: globalStylesUrl }
+  ]
+}
 
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames
-export default function App() {
+export default function App () {
   return (
     <Document>
       <Layout>
         <Outlet />
       </Layout>
     </Document>
-  );
+  )
 }
 
 // https://remix.run/docs/en/v1/api/conventions#errorboundary
-export function ErrorBoundary({ error }) {
-  console.error(error);
+export function ErrorBoundary ({ error }) {
+  console.error(error)
   return (
-    <Document title="Error!">
+    <Document title='Error!'>
       <Layout>
         <div>
           <h1>There was an error</h1>
@@ -48,14 +48,14 @@ export function ErrorBoundary({ error }) {
         </div>
       </Layout>
     </Document>
-  );
+  )
 }
 
 // https://remix.run/docs/en/v1/api/conventions#catchboundary
-export function CatchBoundary() {
-  let caught = useCatch();
+export function CatchBoundary () {
+  const caught = useCatch()
 
-  let message;
+  let message
   switch (caught.status) {
     case 401:
       message = (
@@ -63,16 +63,16 @@ export function CatchBoundary() {
           Oops! Looks like you tried to visit a page that you do not have access
           to.
         </p>
-      );
-      break;
+      )
+      break
     case 404:
       message = (
         <p>Oops! Looks like you tried to visit a page that does not exist.</p>
-      );
-      break;
+      )
+      break
 
     default:
-      throw new Error(caught.data || caught.statusText);
+      throw new Error(caught.data || caught.statusText)
   }
 
   return (
@@ -84,15 +84,15 @@ export function CatchBoundary() {
         {message}
       </Layout>
     </Document>
-  );
+  )
 }
 
-function Document({ children, title }) {
+function Document ({ children, title }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta charSet='utf-8' />
+        <meta name='viewport' content='width=device-width,initial-scale=1' />
         {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
@@ -101,42 +101,43 @@ function Document({ children, title }) {
         {children}
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === "development" && <LiveReload />}
+        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
-  );
+  )
 }
 
-function Layout({ children }) {
+function Layout ({ children }) {
   return (
-    <div className="remix-app">
-      <header className="remix-app__header">
-        <div className="container remix-app__header-content">
-          <Link to="/" title="Find Your Next Book" className="remix-app__header-home-link">
-            <img src={FindYourNextBookLogo} alt="find-your-next-book-logo" height="35" />          </Link>
-          <nav aria-label="Main navigation" className="remix-app__header-nav">
+    <div className='remix-app'>
+      <header className='remix-app__header'>
+        <div className='container remix-app__header-content'>
+          <Link to='/' title='Find Your Next Book' className='remix-app__header-home-link'>
+            <img src={FindYourNextBookLogo} alt='find-your-next-book-logo' height='35' />
+          </Link>
+          <nav aria-label='Main navigation' className='remix-app__header-nav'>
             <ul>
               <li>
-                <Link to="/books">Find Books</Link>
+                <Link to='/books'>Find Books</Link>
               </li>
               <li>
-                <a href="/about">About</a>
+                <a href='/about'>About</a>
               </li>
               <li>
-                <a href="https://github.com/paulmurphy105/Book-Finder-UI">GitHub</a>
+                <a href='https://github.com/paulmurphy105/Book-Finder-UI'>GitHub</a>
               </li>
             </ul>
           </nav>
         </div>
       </header>
-      <div className="remix-app__main">
-        <div className="container remix-app__main-content">{children}</div>
+      <div className='remix-app__main'>
+        <div className='container remix-app__main-content'>{children}</div>
       </div>
-      <footer className="remix-app__footer">
-        <div className="container remix-app__footer-content">
-          <p>Created by <a href="https://www.linkedin.com/in/paul-murphy-47237179/">Paul Murphy</a></p>
+      <footer className='remix-app__footer'>
+        <div className='container remix-app__footer-content'>
+          <p>Created by <a href='https://www.linkedin.com/in/paul-murphy-47237179/'>Paul Murphy</a></p>
         </div>
       </footer>
     </div>
-  );
+  )
 }

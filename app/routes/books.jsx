@@ -1,196 +1,197 @@
-import { useLoaderData, useSearchParams } from "remix";
-import * as React from 'react';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Button from '@mui/material/Button';
-import Collapse from '@mui/material/Collapse';
-import Link from '@mui/material/Link';
-import NavigateNext from '@mui/icons-material/NavigateNext';
-import CloseIcon from '@mui/icons-material/Close';
-import SearchIcon from '@mui/icons-material/Search';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
+import { useLoaderData, useSearchParams } from 'remix'
+import * as React from 'react'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import Button from '@mui/material/Button'
+import Collapse from '@mui/material/Collapse'
+import Link from '@mui/material/Link'
+import NavigateNext from '@mui/icons-material/NavigateNext'
+import CloseIcon from '@mui/icons-material/Close'
+import SearchIcon from '@mui/icons-material/Search'
+import ShuffleIcon from '@mui/icons-material/Shuffle'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import Box from '@mui/material/Box'
+import Fab from '@mui/material/Fab'
 import Search from './components/search'
 import Book from './components/book'
 import NoBooksFound from './components/NoBooksFound'
 import { getNextUrl } from '../utils/books'
 
-export let loader = async ({ request }) => {
-	let url = new URL(request.url);
-	let genreIds = url.searchParams.get("genreIds");
-	let minPages = url.searchParams.get("minPages");
-	let maxPages = url.searchParams.get("maxPages");
-	let minRating = url.searchParams.get("minRating");
-	let limit = url.searchParams.get("limit");
-	let offset = url.searchParams.get("offset");
-	let orderBy = url.searchParams.get("orderBy");
+export const loader = async ({ request }) => {
+  const url = new URL(request.url)
+  const genreIds = url.searchParams.get('genreIds')
+  const minPages = url.searchParams.get('minPages')
+  const maxPages = url.searchParams.get('maxPages')
+  const minRating = url.searchParams.get('minRating')
+  const limit = url.searchParams.get('limit')
+  const offset = url.searchParams.get('offset')
+  const orderBy = url.searchParams.get('orderBy')
 
-	let books
-	if (genreIds && genreIds !== null) {
-		try {
-			books = await fetch(`${process.env.BACKEND_URL}books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}&orderBy=${orderBy}`)
-				.then((response) => {
-					return response.json();
-				})
-		} catch (error) {
-			console.log('Fetch failed')
-			console.error(error)
-		}
+  let books
+  if (genreIds && genreIds !== null) {
+    try {
+      books = await fetch(`${process.env.BACKEND_URL}books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}&orderBy=${orderBy}`)
+        .then((response) => {
+          return response.json()
+        })
+    } catch (error) {
+      console.log('Fetch failed')
+      console.error(error)
+    }
+  }
 
+  const genres = require('../@data/mocks/genres.json')
 
-	}
-
-	const genres = require('../@data/mocks/genres.json')
-
-	return { books, genres }
-};
-
-export function links() {
-	return [
-		{ rel: "stylesheet", href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' },
-		{ rel: "stylesheet", href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
-	];
+  return { books, genres }
 }
 
-export let meta = () => {
-	return {
-		title: `Find your next book under ${Math.floor(Math.random() * 10) + 1}00 pages`,
-		description: "Find the next book by specifying genre, page count, book length and rating"
-	};
-};
+export function links () {
+  return [
+    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' },
+    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
+  ]
+}
 
-export default function Books() {
-	const isLargerThanMobile = useMediaQuery('(min-width:600px)');
-	const [searchParams] = useSearchParams();
-	const data = useLoaderData();
-	const [searchBarVisible, setSearchBarVisible] = React.useState(!Array.isArray(data.books));
-	const searchButtonRef = React.useRef()
+export const meta = () => {
+  return {
+    title: `Find your next book under ${Math.floor(Math.random() * 10) + 1}00 pages`,
+    description: 'Find the next book by specifying genre, page count, book length and rating'
+  }
+}
 
-	const handleSearchInputChange = () => {
-		setSearchBarVisible((prev) => !prev);
-	};
+export default function Books () {
+  const isLargerThanMobile = useMediaQuery('(min-width:600px)')
+  const [searchParams] = useSearchParams()
+  const data = useLoaderData()
+  const [searchBarVisible, setSearchBarVisible] = React.useState(!Array.isArray(data.books))
+  const searchButtonRef = React.useRef()
 
-	const isShuffling = () => searchParams && searchParams.get('orderBy') && searchParams.get('orderBy') === 'random'
+  const handleSearchInputChange = () => {
+    setSearchBarVisible((prev) => !prev)
+  }
 
-	const handleScrollTop = () => {
-		if (searchButtonRef.current) {
-			searchButtonRef.current.scrollIntoView({ behavior: "smooth" })
-		}
-	}
+  const isShuffling = () => searchParams && searchParams.get('orderBy') && searchParams.get('orderBy') === 'random'
 
-	const ScrollToTopButton = () => {
-		return (
-			<Fab color="primary" aria-label="add" onClick={handleScrollTop} sx={{ margin: '0px', right: '20px', bottom: '20px', position: 'fixed' }}>
-				<ArrowUpwardIcon />
-			</Fab>
-		)
-	}
+  const handleScrollTop = () => {
+    if (searchButtonRef.current) {
+      searchButtonRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
-	const PanelButtons = () => {
-		if (Array.isArray(data.books)) {
-			const SearchButton = !searchBarVisible
-				? <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<SearchIcon />}>Show Search Bar</Button>
-				: <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant="outlined" onClick={handleSearchInputChange} startIcon={<CloseIcon />}>Hide Search Bar</Button>
+  const ScrollToTopButton = () => {
+    return (
+      <Fab color='primary' aria-label='add' onClick={handleScrollTop} sx={{ margin: '0px', right: '20px', bottom: '20px', position: 'fixed' }}>
+        <ArrowUpwardIcon />
+      </Fab>
+    )
+  }
 
-			return (
-				<>
-					{SearchButton}
-					{data.books.length > 0 && <SortButtons />}
-				</>
-			)
-		}
+  const PanelButtons = () => {
+    if (Array.isArray(data.books)) {
+      const SearchButton = !searchBarVisible
+        ? <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant='outlined' onClick={handleSearchInputChange} startIcon={<SearchIcon />}>Show Search Bar</Button>
+        : <Button sx={{ marginBottom: '1em' }} ref={searchButtonRef} variant='outlined' onClick={handleSearchInputChange} startIcon={<CloseIcon />}>Hide Search Bar</Button>
 
-		return null
-	}
+      return (
+        <>
+          {SearchButton}
+          {data.books.length > 0 && <SortButtons />}
+        </>
+      )
+    }
 
-	const BottomButton = () => {
-		if (isShuffling()) {
-			return (
-				<Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-					 <ShuffleButton />
-				</Box>
-			)
-		}
+    return null
+  }
 
-		if (data.books.length === 20) {
-			return (
-				<Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>				
-					<Link
-						sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}
-						href={getNextUrl(searchParams)}>
-						<span>More</span>
-						<NavigateNext />
-					</Link>
-				</Box>
-			)
-		}
+  const BottomButton = () => {
+    if (isShuffling()) {
+      return (
+        <Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <ShuffleButton />
+        </Box>
+      )
+    }
 
-		return null
-	}
+    if (data.books.length === 20) {
+      return (
+        <Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Link
+            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}
+            href={getNextUrl(searchParams)}
+          >
+            <span>More</span>
+            <NavigateNext />
+          </Link>
+        </Box>
+      )
+    }
 
-	const SearchResults = () => {
-		if (!data.books || !Array.isArray(data.books)) {
-			return null
-		}
+    return null
+  }
 
-		if (data.books.length === 0) {
-			return <NoBooksFound />
-		}
+  const SearchResults = () => {
+    if (!data.books || !Array.isArray(data.books)) {
+      return null
+    }
 
-		return (
-			<>
-				<BookList />
-				<BottomButton />
-				<ScrollToTopButton />
-			</>
-		)
-	}
+    if (data.books.length === 0) {
+      return <NoBooksFound />
+    }
 
-	const BookList = () => {
-		// TODO: figure this out. the mobile view gets messed up when I wrap it in a box element.
-		// There is likely a way to return a single component to handle both scenarios			
-		if (isLargerThanMobile) {
-			return (
-				<div style={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'baseline',
-					flexDirection: isLargerThanMobile ? 'row' : 'column',
-					flexWrap: 'wrap'
-				}}>
-					{data.books.map((book) => <Book key={book.bookId} book={book} />)}
-				</div>
-			)
-		}
+    return (
+      <>
+        <BookList />
+        <BottomButton />
+        <ScrollToTopButton />
+      </>
+    )
+  }
 
-		return data.books.map((book) => <Book key={book.bookId} book={book} />)
-	}
+  const BookList = () => {
+    // TODO: figure this out. the mobile view gets messed up when I wrap it in a box element.
+    // There is likely a way to return a single component to handle both scenarios
+    if (isLargerThanMobile) {
+      return (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'baseline',
+          flexDirection: isLargerThanMobile ? 'row' : 'column',
+          flexWrap: 'wrap'
+        }}
+        >
+          {data.books.map((book) => <Book key={book.bookId} book={book} />)}
+        </div>
+      )
+    }
 
-	const ShuffleButton = () => <Button size="small"  sx={{ margin: '1em' }} disabled={false} href={getNextUrl(searchParams, 'random')} variant="contained" startIcon={<ShuffleIcon />}>Shuffle</Button>
+    return data.books.map((book) => <Book key={book.bookId} book={book} />)
+  }
 
-	const SortButtons = () => {
-		return (
-			<Box sx={{ marginTop: '1em', marginBottom: '1em', display: 'flex', flexWrap: 'wrap', justifyContent: isLargerThanMobile ? 'center' : 'space-around', outline: '1px solid lightgray' }}>
-				<Button size="small" sx={{ margin: '1em' }} disabled={isShuffling() ? false : true} href={getNextUrl(searchParams, 'highest-rated')} variant="contained" startIcon={<ArrowDownwardIcon />}>Highest Rated</Button>
-				<ShuffleButton />
-			</Box>
-		)
-	}
+  const ShuffleButton = () => <Button size='small' sx={{ margin: '1em' }} disabled={false} href={getNextUrl(searchParams, 'random')} variant='contained' startIcon={<ShuffleIcon />}>Shuffle</Button>
 
-	return (
-		<Box
-			sx={{ margin: '2em', display: 'flex', flexDirection: 'column', alignItems: 'centre', alignContent: 'space-between', justifyContent: 'center' }}>
-			<Collapse in={searchBarVisible}>
-				<Search genreList={data.genres} />
-			</Collapse>
+  const SortButtons = () => {
+    return (
+      <Box sx={{ marginTop: '1em', marginBottom: '1em', display: 'flex', flexWrap: 'wrap', justifyContent: isLargerThanMobile ? 'center' : 'space-around', outline: '1px solid lightgray' }}>
+        <Button size='small' sx={{ margin: '1em' }} disabled={!isShuffling()} href={getNextUrl(searchParams, 'highest-rated')} variant='contained' startIcon={<ArrowDownwardIcon />}>Highest Rated</Button>
+        <ShuffleButton />
+      </Box>
+    )
+  }
 
-			<PanelButtons />
+  return (
+    <Box
+      sx={{ margin: '2em', display: 'flex', flexDirection: 'column', alignItems: 'centre', alignContent: 'space-between', justifyContent: 'center' }}
+    >
+      <Collapse in={searchBarVisible}>
+        <Search genreList={data.genres} />
+      </Collapse>
 
-			<main>
-				<SearchResults />
-			</main>
-		</Box>
-	);
+      <PanelButtons />
+
+      <main>
+        <SearchResults />
+      </main>
+    </Box>
+  )
 }

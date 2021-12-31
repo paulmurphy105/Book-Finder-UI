@@ -6,7 +6,9 @@
   "scripts": {
     "build": "remix build",
     "dev": "node -r dotenv/config node_modules/.bin/remix dev",
-    "postinstall": "remix setup node"
+    "postinstall": "remix setup node",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
