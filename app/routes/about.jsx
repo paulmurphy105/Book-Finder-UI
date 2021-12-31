@@ -66,7 +66,7 @@ export default function About () {
             <p>I threw this website together for a few reasons:
               <ul>
                 <li>I wanted it to exist so that I could find highly rated books which weren't excessively long</li>
-                <li>To play around with some emerging technologies (Fastify, Remix)</li>
+                <li>To play around with some emerging frameworks (Fastify, Remix)</li>
                 <li>To see first hand how a Postgres DB served from a Raspberry Pi would perform </li>
                 <li>To reacquaint myself with some relational database concepts  </li>
               </ul>
