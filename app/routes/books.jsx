@@ -105,7 +105,7 @@ export default function Books() {
 		return null
 	}
 
-	const NextButton = () => {
+	const BottomButton = () => {
 		if (isShuffling()) {
 			return (
 				<Box sx={{ margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -142,7 +142,7 @@ export default function Books() {
 		return (
 			<>
 				<BookList />
-				<NextButton />
+				<BottomButton />
 				<ScrollToTopButton />
 			</>
 		)
