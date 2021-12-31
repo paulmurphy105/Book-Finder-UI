@@ -20,11 +20,11 @@ import Paper from '@mui/material/Paper';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
-const DEFAULT_MIN_PAGES = 300;
-const DEFAULT_MAX_PAGES = 600;
-const DEFAULT_MIN_READING_DURATION = 3;
-const DEFAULT_MAX_READING_DURATION = 10;
+import { 
+    getDefaultPageCountValue,
+    getDefaultBookDuration,
+    getDefaultMinRating,  
+    getDefaultAutocompleteValues } from '../../utils/search'
 
 function pageValuetext(value) {
     return `${value} pages`;
@@ -32,32 +32,6 @@ function pageValuetext(value) {
 
 function bookDurationValuetext(bookDurationValue) {
     return `${bookDurationValue} hr`;
-}
-
-function getDefaultPageCountValue(searchParams) {
-    const minPages = searchParams.get("minPages")
-    const maxPages = searchParams.get("maxPages")
-
-    if (!minPages || !maxPages) return [DEFAULT_MIN_PAGES, DEFAULT_MAX_PAGES]
-
-    return [minPages, maxPages]
-}
-
-function getDefaultBookDuration(searchParams) {
-    const minPages = searchParams.get("minPages")
-    const maxPages = searchParams.get("maxPages")
-
-    if (!minPages || !maxPages) return [DEFAULT_MIN_READING_DURATION, DEFAULT_MAX_READING_DURATION]
-
-    return [Math.floor((minPages / 40) - 50), Math.round((minPages / 40) + 50)]
-}
-
-function getDefaultMinRating(searchParams) {
-    const minRating = searchParams.get("minRating")
-
-    if (!minRating) return 3;
-
-    return minRating
 }
 
 export default function Search({ genreList }) {
@@ -70,28 +44,11 @@ export default function Search({ genreList }) {
     const [activeStep, setActiveStep] = React.useState(0);
     const [bookLengthSelector, setBookLengthSelectorChange] = React.useState('page-count');
 
-    const getDefaultAutocompleteValues = () => {
-        const genreIds = searchParams.get("genreIds")
-        let defaultValues = []
-
-        if (!genreIds) return defaultValues
-        
-        const genreIdsArr = genreIds.split(',').map(Number);
-
-        for (let i = 0; i < genreList.length; i += 1) {
-            if (genreIdsArr.includes(genreList[i].genreId)) {
-                defaultValues.push(genreList[i])
-            }
-        }
-
-        return defaultValues;
-    }
-
-    let defaultAutocompleteValues = getDefaultAutocompleteValues()
+    let defaultAutocompleteValues = getDefaultAutocompleteValues(searchParams, genreList)
 
     const [selectedGenreIds, setSelectedGenreIds] = React.useState(defaultAutocompleteValues.map(genre => genre.genreId));
 
-    const handleNext = (e, isFinished) => {
+    const handleNext = (e) => {
         e.preventDefault()
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
