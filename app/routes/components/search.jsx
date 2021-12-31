@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSearchParams } from "remix";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -20,6 +21,11 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
+const DEFAULT_MIN_PAGES = 300;
+const DEFAULT_MAX_PAGES = 600;
+const DEFAULT_MIN_READING_DURATION = 3;
+const DEFAULT_MAX_READING_DURATION = 10;
+
 function pageValuetext(value) {
     return `${value} pages`;
 }
@@ -28,15 +34,61 @@ function bookDurationValuetext(bookDurationValue) {
     return `${bookDurationValue} hr`;
 }
 
-export default function Tags({ genreList }) {
+function getDefaultPageCountValue(searchParams) {
+    const minPages = searchParams.get("minPages")
+    const maxPages = searchParams.get("maxPages")
+
+    if (!minPages || !maxPages) return [DEFAULT_MIN_PAGES, DEFAULT_MAX_PAGES]
+
+    return [minPages, maxPages]
+}
+
+function getDefaultBookDuration(searchParams) {
+    const minPages = searchParams.get("minPages")
+    const maxPages = searchParams.get("maxPages")
+
+    if (!minPages || !maxPages) return [DEFAULT_MIN_READING_DURATION, DEFAULT_MAX_READING_DURATION]
+
+    return [Math.floor((minPages / 40) - 50), Math.round((minPages / 40) + 50)]
+}
+
+function getDefaultMinRating(searchParams) {
+    const minRating = searchParams.get("minRating")
+
+    if (!minRating) return 3;
+
+    return minRating
+}
+
+export default function Search({ genreList }) {
+    const [searchParams] = useSearchParams();
     const isLargerThanMobile = useMediaQuery('(min-width:600px)');
-    const [pageCountValue, setPageCountValue] = React.useState([300, 600]);
-    const [bookDurationValue, setBookDurationValue] = React.useState([3, 10]);
-    const [rating, setRating] = React.useState(3);
+    const [pageCountValue, setPageCountValue] = React.useState(getDefaultPageCountValue(searchParams));
+    const [bookDurationValue, setBookDurationValue] = React.useState(getDefaultBookDuration(searchParams));
+    const [minRating, setMinRating] = React.useState(getDefaultMinRating(searchParams));
     const [open, setOpen] = React.useState(false);
     const [activeStep, setActiveStep] = React.useState(0);
     const [bookLengthSelector, setBookLengthSelectorChange] = React.useState('page-count');
-    const [selectedGenreIds, setSelectedGenreIds] = React.useState([]);
+
+    const getDefaultAutocompleteValues = () => {
+        const genreIds = searchParams.get("genreIds")
+        if (!genreIds) return
+        
+        const genreIdsArr = genreIds.split(',').map(Number);
+
+        let defaultValues = []
+        for (let i = 0; i < genreList.length; i += 1) {
+            if (genreIdsArr.includes(genreList[i].genreId)) {
+                defaultValues.push(genreList[i])
+            }
+        }
+
+        return defaultValues;
+    }
+
+    let defaultAutocompleteValues = getDefaultAutocompleteValues()
+
+    const [selectedGenreIds, setSelectedGenreIds] = React.useState(defaultAutocompleteValues.map(genre => genre.genreId));
 
     const handleNext = (e, isFinished) => {
         e.preventDefault()
@@ -60,7 +112,7 @@ export default function Tags({ genreList }) {
     };
 
     const handleRatingChange = (event) => {
-        setRating(event.target.value);
+        setMinRating(event.target.value);
     };
 
     const handleRatingSelectClose = () => {
@@ -83,7 +135,7 @@ export default function Tags({ genreList }) {
             }
         }
 
-        // 40 pages in 60 minutes. Statistics show that quick readers can even go through 50 or 60 pages in one hour.Sept 3, 2021
+        // 40 pages in 60 minutes. Statistics show that quick readers can even go through 50 or 60 pages in one hour
         return {
             minPages: ((bookDurationValue[0] * 40) - 50),
             maxPages: ((bookDurationValue[1] * 40) + 50)
@@ -96,6 +148,7 @@ export default function Tags({ genreList }) {
                 <Autocomplete
                     sx={{ minWidth: '200px', margin: '0.7em',  width: isLargerThanMobile ? '600px' : '150px' }}
                     multiple
+                    defaultValue={defaultAutocompleteValues}
                     id="tags-outlined"
                     options={genreList}
                     getOptionLabel={(option) => option.genre}
@@ -191,7 +244,7 @@ export default function Tags({ genreList }) {
                         open={open}
                         onClose={handleRatingSelectClose}
                         onOpen={handleRatingSelectOpen}
-                        value={rating}
+                        value={minRating}
                         label="Minimum Rating"
                         onChange={handleRatingChange}
                     >
