@@ -72,11 +72,12 @@ export default function Search({ genreList }) {
 
     const getDefaultAutocompleteValues = () => {
         const genreIds = searchParams.get("genreIds")
-        if (!genreIds) return
+        let defaultValues = []
+
+        if (!genreIds) return defaultValues
         
         const genreIdsArr = genreIds.split(',').map(Number);
 
-        let defaultValues = []
         for (let i = 0; i < genreList.length; i += 1) {
             if (genreIdsArr.includes(genreList[i].genreId)) {
                 defaultValues.push(genreList[i])
