@@ -56,8 +56,8 @@ export function links() {
 
 export let meta = () => {
 	return {
-		title: "Find your next book!",
-		description: "Find the next book by specifying genre, page count, length and rating"
+		title: `Find your next book under ${Math.floor(Math.random() * 10) + 1}00 pages`,
+		description: "Find the next book by specifying genre, page count, book length and rating"
 	};
 };
 
