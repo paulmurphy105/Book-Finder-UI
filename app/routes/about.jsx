@@ -63,7 +63,7 @@ export default function About () {
         <Box sx={{ margin: '1em' }}>
           <Box>
             <h2>Background</h2>
-            <p>I hacked this website together for a few reasons:
+            <p>I threw this website together for a few reasons:
               <ul>
                 <li>I wanted it to exist so that I could find highly rated books which weren't excessively long</li>
                 <li>To play around with some emerging technologies (Fastify, Remix)</li>
@@ -100,6 +100,31 @@ export default function About () {
             <Images imageList={backEndImages} />
           </Box>
         </Box>
+        <Box sx={{ margin: '1em' }}>
+          <Box>
+            <h2>To-Do (a.k.a. "Things I want to acknowledge but will likely never do")</h2>
+            <ul>
+              <li>
+                Spend more than 5 minutes on a logo
+              </li>
+              <li>
+                Write tests - I never write tests for half assed side projects as most of them don't see the light of day.
+              </li>
+              <li>
+                Refactor / reorganize the code. The route files are a bit bloated and some stuff could be moved to the components folder
+              </li>
+              <li>
+                Rethink styling approach. Most of the page's styles are inline. This is not ideal but it was the quickest way for me to get where I wanted to be
+              </li>              
+              <li>
+                Fix my SQL query - One tiny feature (showing the genre chips) is forcing me to run a subquery. It is increasing the query duration by over 100%
+              </li> 
+              <li>
+                Buy a domain
+              </li>                                                       
+            </ul>
+          </Box>
+        </Box>        
       </main>
     </Box>
   )
