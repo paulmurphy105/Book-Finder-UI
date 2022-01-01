@@ -93,8 +93,7 @@ function Document ({ children, title }) {
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
-        <meta name="google-site-verification" content={`${process.env.GOOGLE_VERIFICATION_KEY}`} />
-        {title ? <title>{title}</title> : null}
+        <meta name="google-site-verification" content="0NMQP-AzKvHDp9Mg9v0vXF34Ac9qceecXxi2Yx6vegU" />        {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
       </head>
