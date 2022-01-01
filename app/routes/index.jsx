@@ -35,6 +35,15 @@ export default function Books() {
           The underlying data comes from a Goodreads <a href='https://www.kaggle.com/mdhamani/goodreads-books-100k'>dataset</a> that I found on Kaggle. This application allows you to get at the Goodreads data in a more user-friendly way.
           As great as Goodreads is, it does not support searching by genre and page count which can make finding a good book under a specific length challenging
         </Typography>
+
+        <Typography sx={{ marginBottom: '2em' }} variant='body2'>
+          <i>Romance novels under 200 pages</i><br/>
+          <i>Find me a sci-fi book that I can read in under 10 hours</i><br/>
+          <i>Help me find me a nice autobiography which is less than 600 pages </i><br/>
+        </Typography>
+
+
+
         <Button href='/books' variant='contained' startIcon={<SearchIcon />}> Find Your Next Book</Button>
       </main>
     </Box>
