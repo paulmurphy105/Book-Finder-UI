@@ -47,7 +47,7 @@ export default function Books() {
         </Box>
         <Typography sx={{ marginBottom: '1em', fontSize: '2em' }} variant='h3'>Uncover books in your favourite genre which are less than a certain number of pages</Typography>
         <Typography sx={{ marginBottom: '2em' }} variant='body1'>
-          Discover books in your favourite genre which are a suitable lenght. Search through 100,000 books to find a book which suits your needs - filter by rating, genre and page count.
+          Discover books in your favourite genre which are a suitable length. Search through 100,000 books to find a book which suits your needs - filter by rating, genre and page count.
           The underlying data comes from a Goodreads <a href='https://www.kaggle.com/mdhamani/goodreads-books-100k'>dataset</a> that I found on Kaggle. This application allows you to get at the Goodreads data in a more user-friendly way.
           As great as Goodreads is, it does not support searching by genre and page count which can make finding a good book under a specific length challenging
         </Typography>
