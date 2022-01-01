@@ -52,13 +52,6 @@ export function links () {
   ]
 }
 
-export const meta = () => {
-  return {
-    title: `Find your next book under ${Math.floor(Math.random() * 10) + 1}00 pages`,
-    description: 'Find the next book by specifying genre, page count, book length and rating'
-  }
-}
-
 export default function Books () {
   const isLargerThanMobile = useMediaQuery('(min-width:600px)')
   const [searchParams] = useSearchParams()

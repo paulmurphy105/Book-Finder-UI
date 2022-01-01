@@ -19,6 +19,13 @@ export const links = () => {
   ]
 }
 
+export const meta = () => {
+  return {
+    title: `Find your next book under 200/300/400/500 pages`,
+    description: 'Find the next book by specifying genre, page count, book length and rating'
+  }
+}
+
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames
 export default function App () {
@@ -92,6 +99,7 @@ function Document ({ children, title }) {
     <html lang='en'>
       <head>
         <meta charSet='utf-8' />
+        <Meta />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <meta name="google-site-verification" content="wAlOfIJ4rGkfxrynpxgX0fCgmobyZghnSIct-5ILGSo" />        <Links />
       </head>

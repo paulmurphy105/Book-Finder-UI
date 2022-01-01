@@ -1,13 +1,6 @@
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Box from '@mui/material/Box'
 
-// https://remix.run/api/conventions#meta
-export const meta = () => {
-  return {
-    title: 'Book Finder',
-    description: 'About the Book Finder'
-  }
-}
 
 const frontEndImages = [
   {
