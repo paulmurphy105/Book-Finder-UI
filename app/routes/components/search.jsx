@@ -54,7 +54,7 @@ export default function Search({ genreList }) {
         e.preventDefault()
         setActiveStep(0)
     }
-    const handlePageCount = (event, newValue) => {
+    const handlePageCountChange = (newValue) => {
         setPageCountValue(newValue)
     }
 
@@ -125,7 +125,7 @@ export default function Search({ genreList }) {
                     name='pageCountSlider'
                     getAriaLabel={() => 'Number of Pages'}
                     value={pageCountValue}
-                    onChange={handlePageCount}
+                    onChange={handlePageCountChange}
                     step={100}
                     min={50}
                     max={2500}
@@ -161,7 +161,6 @@ export default function Search({ genreList }) {
 
     const renderLengthSelector = () => {
         return (
-
             <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', width: isLargerThanMobile ? '500px' : '250px' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     <FormControl component='fieldset'>
@@ -175,7 +174,6 @@ export default function Search({ genreList }) {
                     </FormControl>
                 </Box>
             </Box>
-
         )
     }
 
@@ -235,7 +233,6 @@ export default function Search({ genreList }) {
                 justifyContent: 'flex-start'
             }}
             >
-
                 <input type='hidden' name='genreIds' value={selectedGenreIds.join()} />
                 <input type='hidden' name='minPages' value={getPageRange().minPages} />
                 <input type='hidden' name='maxPages' value={getPageRange().maxPages} />
@@ -282,7 +279,6 @@ export default function Search({ genreList }) {
                                                     </Button>
                                                 )
                                         }
-
                                         <Button
                                             disabled={index === 0}
                                             onClick={handleBack}
@@ -305,7 +301,6 @@ export default function Search({ genreList }) {
                     </Paper>
                 )}
             </Box>
-
         </form>
     )
 }

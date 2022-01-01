@@ -18,24 +18,8 @@ export const meta = () => {
   }
 }
 
-// const spin = keyframes`
-// 0% {
-//     background-color: #001F3F;
-//   }
-//   100% {
-//     background-color: #FF4136;
-//   }
-// `;
-
 export default function Books() {
   const [dynamicPageCount, setDynamicPageCount] = React.useState(Math.floor(Math.random() * 10) + 1)
-
-  // React.useEffect(() => {
-  //     const interval = setInterval(() => {
-  //          setDynamicPageCount(Math.floor(Math.random() * 10) + 1);
-  //     }, 5000);
-  //     return () => clearInterval(interval);
-  // }, []);
 
   return (
     <Box

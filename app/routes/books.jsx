@@ -56,8 +56,8 @@ export default function Books () {
   const isLargerThanMobile = useMediaQuery('(min-width:600px)')
   const [searchParams] = useSearchParams()
   const data = useLoaderData()
-  const [searchBarVisible, setSearchBarVisible] = React.useState(!Array.isArray(data.books))
   const searchButtonRef = React.useRef()
+  const [searchBarVisible, setSearchBarVisible] = React.useState(!Array.isArray(data.books))
 
   const handleSearchInputChange = () => {
     setSearchBarVisible((prev) => !prev)

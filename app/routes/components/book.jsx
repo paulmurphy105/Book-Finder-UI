@@ -70,11 +70,9 @@ export default function Book ({ book }) {
         />
       </Box>
       <CardContent>
-
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
           <GenreChips genreList={book.genrelist.split(',') || []} />
         </Box>
-
         <Button href='' onClick={(e) => handleExpandClick(e, book.bookId)} sx={{ textTransform: 'none' }}>
           <Typography textAlign='left' variant='body2' color='text.secondary'>
             {`${book.description.substring(0, 180)}...`}
@@ -128,7 +126,6 @@ export default function Book ({ book }) {
           <Typography variant='body2' sx={{ padding: '1em' }}>
             {book.description}
           </Typography>
-
           <Link
             target='_blank'
             rel='noopener noreferer noreferrer'
@@ -138,7 +135,6 @@ export default function Book ({ book }) {
             <img src='https://s.gr-assets.com/images/icons/goodreads_icon_32x32.png' />
             <span style={{ marginLeft: '5px' }}>View on goodreads</span>
           </Link>
-
           <ExpandMore
             expand={expanded[book.bookId]}
             onClick={(e) => handleExpandClick(e, book.bookId)}
@@ -148,7 +144,6 @@ export default function Book ({ book }) {
           >
             <ExpandMoreIcon />
           </ExpandMore>
-
         </CardContent>
       </Collapse>
     </Card>
