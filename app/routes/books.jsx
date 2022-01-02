@@ -16,8 +16,11 @@ import Search from './components/search'
 import Book from './components/book'
 import NoBooksFound from './components/NoBooksFound'
 import { getNextUrl } from '../utils/books'
+import { recordVisit } from '../utils/analytics'
 
 export const loader = async ({ request }) => {
+  recordVisit(request)
+
   const url = new URL(request.url)
   const genreIds = url.searchParams.get('genreIds')
   const minPages = url.searchParams.get('minPages')

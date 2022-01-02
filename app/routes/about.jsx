@@ -1,6 +1,6 @@
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Box from '@mui/material/Box'
-
+import { recordVisit } from '../utils/analytics'
 
 const frontEndImages = [
   {
@@ -39,6 +39,12 @@ const backEndImages = [
     alt: 'node-js-logo'
   }
 ]
+
+export const loader = async ({ request }) => {
+  recordVisit(request) 
+
+  return null;
+}
 
 // https://remix.run/guides/routing#index-routes
 export default function About () {

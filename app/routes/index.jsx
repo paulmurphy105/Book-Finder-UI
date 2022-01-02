@@ -3,6 +3,7 @@ import Button from '@mui/material/Button'
 import SearchIcon from '@mui/icons-material/Search'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import { recordVisit } from '../utils/analytics'
 
 export function links() {
   return [
@@ -16,6 +17,12 @@ export const meta = () => {
     title: 'Find your next book under 100, 200, 300, 400 pages',
     description: 'Find the next book by specifying genre, page count, book length and rating'
   }
+}
+
+export const loader = async ({ request }) => {
+  recordVisit(request) 
+
+  return null;
 }
 
 export default function Books() {
