@@ -7,7 +7,7 @@ const recordVisit = (request) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ route: url.pathname, userAgent: request.headers.get('user-agent'), ipAddress: 'unknown' })
+        body: JSON.stringify({ route: url.pathname, userAgent: request.headers.get('user-agent'), ipAddress: 'unknown', search: url.search })
     });        
 }
 
