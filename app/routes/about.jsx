@@ -77,9 +77,9 @@ export default function About () {
             <h2>Tools &amp; Technologies</h2>
             <p><b>Frontend</b></p>
             <p>The frontend is built using <a href='https://reactjs.org/'>React</a> and <a href='https://remix.run/'>Remix</a>. I had read really positive things about Remix and wanted to try it out for myself. I didn't get too deep into the weeds
-              but it was a really pleasant experience overall. <a href='https://mui.com/'>Material UI / MUI components </a> are used extensively. While these might lack originality in some cynical eyes, they were perfect for a small side-project.
+              but it was a really pleasant experience overall. <a href='https://mui.com/'>Material UI / MUI components </a> are used extensively. While these might lack originality in some cynical eyes, they were perfect for a small side project.
               If I tried to create those components myself (factoring in accessibility, design etc), it would take forever and I wouldn't do as good of a job. I definitely do not have a good eye for design so
-              dropping in some well designed components was perfect for this project. The application is hosted on <a href='https://vercel.com/'>Vercel</a> as it is pretty amazing, easy to use and has a great (free) "hobby" tier.
+              dropping in some well designed components was perfect for this project. The application is hosted on <a href='https://vercel.com/'>Vercel</a> as it is amazing, easy to use and has a great (free) "hobby" tier.
             </p>
           </Box>
           <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-around', marginTop: '3em', flexWrap: 'wrap', padding: '2em' }}>
@@ -91,8 +91,8 @@ export default function About () {
           <Box>
             <p><b>Backend</b></p>
             <p>The backend is a very simple <a href='https://www.fastify.io/'>Fastify API</a>. The API doesn't do much except for some access key checking and connecting to / querying a database. The backend portion of this application lives on a <a href='https://www.raspberrypi.com/products/raspberry-pi-3-model-b/'>Raspberry Pi 3 Model B</a>. Obviously this solution lacks in the performance, security and reliability
-              departments but it's free and it was fun to set up. The actual source of the data is a <a href='https://www.kaggle.com/mdhamani/goodreads-books-100k'>dataset</a> that I found on Kaggle. I wrote a Node.js script to parse the CSV file, normalize the data and store it in a <a href='https://www.postgresql.org/'>Postgres</a> DB.
-              I considered trying to get fancy and use an advanced COPY command / write a neat shell script but it just wasn't worth the time given I was trying to get this done over the Christmas holidays.
+              departments but it's free and it was fun to set up. The actual source of the data is a <a href='https://www.kaggle.com/mdhamani/goodreads-books-100k'>dataset</a> that I found on Kaggle. I wrote a Node.js script to parse the CSV file, normalize the data and store it in a <a href='https://www.postgresql.org/'>Postgres</a> database.
+              I considered trying to get fancy and use an advanced COPY command / write a neat shell script but it just wasn't worth the effort (considering that I was trying to get this done over the Christmas holidays).
             </p>
           </Box>
           <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-around', marginTop: '3em', flexWrap: 'wrap', padding: '2em' }}>
@@ -107,7 +107,7 @@ export default function About () {
                 Spend more than 5 minutes on a logo
               </li>
               <li>
-                Write tests - I never write tests for half assed side projects as most of them don't see the light of day.
+                Write tests - I never write tests for half assed side projects as most of them don't see the light of day
               </li>
               <li>
                 Refactor / reorganize the code. The route files are a bit bloated and some stuff could be moved to the components folder
