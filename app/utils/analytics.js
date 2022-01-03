@@ -13,6 +13,7 @@ const recordVisit = (request) => {
     } catch (error) {
         console.error('Call to record visit failed')
         console.error(error) 
+        console.log(`Failing info: ${JSON.stringify({ route: url.pathname, userAgent: request.headers.get('user-agent'), search: url.search })}`)
     }
       
 }
