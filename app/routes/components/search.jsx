@@ -54,7 +54,7 @@ export default function Search({ genreList }) {
         e.preventDefault()
         setActiveStep(0)
     }
-    const handlePageCountChange = (newValue) => {
+    const handlePageCountChange = (e, newValue) => {
         setPageCountValue(newValue)
     }
 
