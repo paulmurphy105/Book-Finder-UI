@@ -101,7 +101,10 @@ function Document ({ children, title }) {
         <meta charSet='utf-8' />
         <Meta />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
-        <meta name="google-site-verification" content="wAlOfIJ4rGkfxrynpxgX0fCgmobyZghnSIct-5ILGSo" />        <Links />
+        <meta name="google-site-verification" content="wAlOfIJ4rGkfxrynpxgX0fCgmobyZghnSIct-5ILGSo" />
+        <meta name="robots" content="index,follow" />
+        <meta name="googlebot" content="index,follow" />
+        <Links />
       </head>
       <body>
         {children}
