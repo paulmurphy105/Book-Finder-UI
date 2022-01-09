@@ -3,6 +3,10 @@
 This was built over the Christmas holidays, 2021. I checked Amazon and Goodreads but I could not find a way to include a page count range in my search. I checked a few publically available APIs to see if I could leverage those but none of them ticked all of the boxes. When I stumbled across the right dataset on Kaggle, I decided to build this as I knew I would use it myself. The [About](https://findyournextbook.vercel.app/about) page goes into some detail about the technologies used and some of the outstanding items.
 
 
+The [Books](https://findyournextbook.vercel.app/books) page is where the searching happens
+The [About](https://findyournextbook.vercel.app/about) page gives some info on the project
+The [home](https://findyournextbook.vercel.app/) page is filled with SEO buzzwords 
+
 # Built using Remix!
 
 - [Remix Docs](https://remix.run/docs)
