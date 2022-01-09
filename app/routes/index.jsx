@@ -45,7 +45,6 @@ export default function Books() {
 
         <Typography sx={{ marginBottom: '1em', fontSize: '2em' }} variant='h4'>This site aims to help people who perform the following searches</Typography>
  
-
         <Typography sx={{ marginBottom: '2em' }} variant='body2'>
           <i>Romance novels under 200 pages</i><br/>
           <i>Find me a sci-fi book that I can read in under 10 hours</i><br/>
@@ -109,7 +108,7 @@ export default function Books() {
           <i>Best seller books under 300 pages</i><br/>
           <i>Best classic books under 300 pages</i><br/>
           <i>Classic books under 300 pages</i><br/>
-          <i>Best books 200 pages</i><br/> or less
+          <i>Best books 200 pages or less</i><br/> 
           <i>Short novels under 200 pages</i><br/>
           <i>Famous books under 200 pages</i><br/>
           <i>Good books less than 200 pages</i><br/>
@@ -118,13 +117,10 @@ export default function Books() {
           <i>Good fiction books around 600 pages</i><br/>
           <i>Good non-fiction books under 600 pages</i><br/>
           <i>Good books for 6th graders under 600 pages</i><br/>
-          <i>Good books 200 pages</i><br/> or less
+          <i>Good books 200 pages  or less</i><br/>
           <i>Good books to read under 200 pages</i><br/>
           <i>Good books with less than 200 pages</i><br/>
-
         </Typography>
-
-
 
         <Button href='/books' variant='contained' startIcon={<SearchIcon />}> Find Your Next Book</Button>
       </main>
