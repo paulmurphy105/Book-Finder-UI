@@ -32,15 +32,13 @@ export const loader = async ({ request }) => {
 
   let books
   if (genreIds && genreIds !== null) {
-    try {
-      books = await fetch(`${process.env.BACKEND_URL}books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}&orderBy=${orderBy}`)
-        .then((response) => {
-          return response.json()
-        })
-    } catch (error) {
-      console.log('Fetch failed')
-      console.error(error)
-    }
+    books = await fetch(`${process.env.BACKEND_URL}books?genreIds=${genreIds}&minPages=${minPages}&maxPages=${maxPages}&minRating=${minRating}&limit=${limit}&offset=${offset}&orderBy=${orderBy}`)
+      .then((response) => {
+        return response.json()
+      }).catch((error) => {
+        console.log('Fetch failed')
+        console.error(error)
+      })
   }
 
   const genres = require('../@data/mocks/genres.json')
@@ -48,14 +46,14 @@ export const loader = async ({ request }) => {
   return { books, genres }
 }
 
-export function links () {
+export function links() {
   return [
     { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' },
     { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
   ]
 }
 
-export default function Books () {
+export default function Books() {
   const isLargerThanMobile = useMediaQuery('(min-width:600px)')
   const [searchParams] = useSearchParams()
   const data = useLoaderData()
